@@ -2,6 +2,26 @@
 
 A complete SaaS solution for embedding passwordless authentication into any website. Built with Next.js, Express.js, TypeScript, Prisma, and PostgreSQL.
 
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd Seamless-auth
+
+# Run the quick start script
+./quick-start.sh
+
+# Or manually setup (see below)
+```
+
+## 📚 Documentation
+
+- **[TESTING.md](TESTING.md)** - Comprehensive testing guide with step-by-step instructions
+- **[API.md](API.md)** - Complete API documentation with examples
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment guides for Render and Vercel
+- **[demo-embed.html](demo-embed.html)** - Example HTML page showing how to embed the auth button
+
 ## Features
 
 - 🔐 **Passwordless Authentication** - Email-based OTP (6-digit code)
@@ -350,10 +370,28 @@ npm run lint         # Lint code
 - In development, OTP is logged to console
 - Implement proper email service for production
 
+For more detailed troubleshooting, see [TESTING.md](TESTING.md).
+
+## Project Files
+
+- `backend/` - Express.js TypeScript backend with Prisma
+- `frontend/` - Next.js TypeScript frontend with Tailwind CSS
+- `demo-embed.html` - Example HTML showing how to embed the auth button
+- `quick-start.sh` - Quick setup script for local development
+- `render.yaml` - Configuration for Render.com deployment
+- `README.md` - This file
+- `API.md` - Complete API documentation
+- `TESTING.md` - Testing guide with step-by-step instructions
+- `DEPLOYMENT.md` - Deployment guides for various platforms
+
 ## License
 
 ISC
 
 ## Support
 
-For issues and questions, please open an issue on GitHub.
+For issues and questions:
+- Review [TESTING.md](TESTING.md) for testing instructions
+- Check [API.md](API.md) for API documentation
+- See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment help
+- Open an issue on GitHub for bugs or feature requests
