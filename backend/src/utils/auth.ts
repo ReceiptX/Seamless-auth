@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-export const generateJWT = (payload: any, expiresIn = '7d'): string => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+export const generateJWT = (payload: any, expiresIn: string | number = '7d'): string => {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn } as any);
 };
 
 export const verifyJWT = (token: string): any => {

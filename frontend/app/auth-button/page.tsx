@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { sendOTP, verifyOTP } from '@/lib/api';
 
-export default function AuthButtonPage() {
+function AuthButtonContent() {
   const searchParams = useSearchParams();
   const publicKey = searchParams.get('key');
   const [email, setEmail] = useState('');
@@ -144,5 +144,17 @@ export default function AuthButtonPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AuthButtonPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl">Loading...</div>
+      </div>
+    }>
+      <AuthButtonContent />
+    </Suspense>
   );
 }

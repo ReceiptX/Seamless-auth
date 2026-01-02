@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seamless Auth Demo - Embed Example</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    p {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .info-box {
+      background: #f0f4ff;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 4px;
+    }
+    .info-box strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .info-box code {
+      background: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: #333;
+    }
+    #seamless-auth-container {
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      min-height: 200px;
+    }
+    .status {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .status h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    .status pre {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .success {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .error {
+      color: #ef4444;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Seamless Auth Demo</h1>
+    <p>This is an example page showing how to embed the Seamless Auth button on your website.</p>
+    
+    <div class="info-box">
+      <strong>📋 Setup Instructions:</strong>
+      Replace <code>YOUR_PUBLIC_KEY</code> in the script tag below with your actual public key from the dashboard.
+    </div>
+
+    <div id="seamless-auth-container">
+      <!-- Auth button will be loaded here -->
+    </div>
+
+    <div class="status">
+      <h2>Authentication Status</h2>
+      <pre id="status">Waiting for authentication...</pre>
+    </div>
+  </div>
+
+  <!-- 
+    SEAMLESS AUTH EMBED CODE 
+    Replace YOUR_PUBLIC_KEY with your actual public key
+  -->
+  <script src="http://localhost:3001/embed/button.js?key=YOUR_PUBLIC_KEY"></script>
+  <script>
+    // Listen for successful authentication
+    window.addEventListener('seamlessAuthSuccess', function(event) {
+      console.log('Authentication successful!', event.detail);
+      
+      // Update the status display
+      document.getElementById('status').innerHTML = 
+        '<span class="success">✓ Authentication Successful!</span>\n\n' +
+        'User Email: ' + event.detail.user.email + '\n' +
+        'User ID: ' + event.detail.user.id + '\n' +
+        'Token: ' + event.detail.token.substring(0, 50) + '...\n\n' +
+        'Full Response:\n' +
+        JSON.stringify(event.detail, null, 2);
+      
+      // Store the token in localStorage
+      localStorage.setItem('authToken', event.detail.token);
+      localStorage.setItem('user', JSON.stringify(event.detail.user));
+      
+      // You can now:
+      // 1. Redirect to a protected page
+      // window.location.href = '/dashboard';
+      
+      // 2. Make authenticated API calls
+      // fetch('/api/protected', {
+      //   headers: { 'Authorization': 'Bearer ' + event.detail.token }
+      // });
+      
+      // 3. Update your UI to show logged-in state
+      // showUserProfile(event.detail.user);
+    });
+
+    // Optional: Check if user is already authenticated
+    window.addEventListener('DOMContentLoaded', function() {
+      const storedToken = localStorage.getItem('authToken');
+      const storedUser = localStorage.getItem('user');
+      
+      if (storedToken && storedUser) {
+        document.getElementById('status').innerHTML = 
+          '<span class="success">✓ Already Authenticated</span>\n\n' +
+          'User: ' + JSON.parse(storedUser).email + '\n' +
+          'Token: ' + storedToken.substring(0, 50) + '...\n\n' +
+          '<button onclick="logout()" style="margin-top: 10px; padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>';
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      location.reload();
+    }
+  </script>
+</body>
+</html>
